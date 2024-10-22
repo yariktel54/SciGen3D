@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Генератор 3D Моделей</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+        .main-block {
+            background-color: #ffffff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .instructions {
+            background-color: #e7f5fe;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .download-block {
+            background-color: #e7ffe7;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .links-block {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .model-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+        .model-item {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        .model-item:hover {
+            transform: scale(1.05);
+        }
+        .model-item a {
+            text-decoration: none;
+            color: #333;
+            display: block;
+        }
+        .model-item p {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        input[type="file"] {
+            display: block;
+            margin-top: 10px;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+            }
+            header {
+                font-size: 1.2em;
+            }
+            h2 {
+                font-size: 1.5em;
+            }
+            .model-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Генератор 3D Моделей</h1>
+    </header>
+    <div class="container">
+        <div class="main-block">
+    		<h2>Про проект</h2>
+    		<p>Генератор 3D моделей пропонує кілька програм для створення моделей на основі різних даних. Geo3D генерує 3D моделі з чорно-білих карт висот (DEM) та кольорових мап висот. Math3D створює моделі з математичних формул у форматі z=xy. Space3D обробляє DEM та DTM інших планет, включаючи кольорові мапи. Uni3D є універсальною програмою для генерації моделей, що підтримує формати jpg та png. Завантажте необхідну програму та розпочніть створення власних 3D моделей! Також ви можете завантажити вже готові моделі для використання та подальшого дослідження.</p>
+        </div>
+        <div class="instructions">
+            <h2>Інструкція</h2>
+            <ol>
+                <li>Підготуйте файл карти висот або математичної функції у форматі, що підтримується (.png, .jpg).</li>
+                <li>Завантажте програму, впишіть координати і натисніть кнопу "завантажити тайли" або натисніть "завантажити свої тайли" і у відкритому вікні виберіть необхідну мапу.</li>
+                <li>Натисність кнопку генерації. Після повідомлення про успішну генерацію відкриється .stl файл моделі</li>
+		<li>При бажанні можете зайти у додаткові налаштування генерації, натиснувши кнопку "додатково"</li>
+            </ol>
+        </div>
+        <div class="download-block">
+            <h2>Завантажити програму</h2>
+            <p>Тут ви можете завантажити програму для генерації 3D моделей, необхідні ресурси та готові моделі:</p>
+            <div class="model-grid">
+    		<div class="model-item">
+        		<a href="#">
+            			<img src="geoicon.png" alt="Geo3D Preview" style="width: 100%; border-radius: 12px;">
+            			<div class="model-content">
+                			<p>Geo3D - Генерація DEM та кольорових мап висот</p>
+            			</div>
+        		</a>
+    		</div>
+    		<div class="model-item">
+        		<a href="#">
+            			<img src="mathicon.png" alt="Math3D Preview" style="width: 100%; border-radius: 12px;">
+            			<div class="model-content">
+                			<p>Math3D - Моделі з формул (z=xy)</p>
+            			</div>
+        		</a>
+    		</div>
+    		<div class="model-item">
+        		<a href="#">
+            			<img src="spaceicon.png" alt="Space3D Preview" style="width: 100%; border-radius: 12px;">
+            			<div class="model-content">
+                			<p>Space3D - DEM та DTM інших планет</p>
+            			</div>
+        		</a>
+    		</div>
+    		<div class="model-item">
+        		<a href="#">
+            			<img src="univicon.png" alt="Uni3D Preview" style="width: 100%; border-radius: 12px;">
+            			<div class="model-content">
+                			<p>Uni3D - Універсальна програма генерації (jpg, png)</p>
+            			</div>
+        		</a>
+    		</div>
+	</div>
+	<div class="model-grid">
+    		<div class="model-item">
+        		<a href="#">
+            			<img src="geoicon.png" alt="Geo3D Preview" style="width: 100%; border-radius: 12px;">
+            			<div class="model-content">
+                			<p>Geo3D - Генерація DEM та кольорових мап висот</p>
+            			</div>
+        		</a>
+    		</div>
+    		<div class="model-item">
+        		<a href="#">
+            			<img src="mathicon.png" alt="Math3D Preview" style="width: 100%; border-radius: 12px;">
+            			<div class="model-content">
+                			<p>Math3D - Моделі з формул (z=xy)</p>
+            			</div>
+        		</a>
+    		</div>
+    		<div class="model-item">
+        		<a href="#">
+            			<img src="spaceicon.png" alt="Space3D Preview" style="width: 100%; border-radius: 12px;">
+            			<div class="model-content">
+                			<p>Space3D - DEM та DTM інших планет</p>
+            			</div>
+        		</a>
+    		</div>
+    		<div class="model-item">
+        		<a href="#">
+            			<img src="univicon.png" alt="Uni3D Preview" style="width: 100%; border-radius: 12px;">
+            			<div class="model-content">
+                			<p>Uni3D - Універсальна програма генерації (jpg, png)</p>
+            			</div>
+        		</a>
+    		</div>
+	</div>
+    </div>
+</body>
+</html>
