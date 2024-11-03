@@ -2,247 +2,362 @@
 <html lang="uk">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Веб перегляд 3D карт</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            color: #333;
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-        }
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Веб перегляд 3D карт</title>
+        <style>
+                body {
+                        font-family: Arial, sans-serif;
+                        background-color: #f0f0f0;
+                        color: #333;
+                        line-height: 1.6;
+                        margin: 0;
+                        padding: 0;
+                }
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
+                .container {
+                        max-width: 800px;
+                        margin: 0 auto;
+                        padding: 20px;
+                }
 
-        header {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 0;
-            text-align: center;
-        }
+                header {
+                        background-color: #4CAF50;
+                        color: white;
+                        padding: 10px 0;
+                        text-align: center;
+                }
 
-        .main-block {
-            background-color: #ffffff;
-            padding: 20px;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
+                .main-block {
+                        background-color: #ffffff;
+                        padding: 20px;
+                        margin-bottom: 20px;
+                        border-radius: 8px;
+                        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                }
 
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
+                ul {
+                        list-style-type: none;
+                        padding: 0;
+                }
 
-        a {
-            color: black;
-            text-decoration: none;
-        }
+                a {
+                        color: white;
+                        text-decoration: none;
+                }
 
-        ul li {
-            cursor: pointer;
-            margin: 5px 0;
-            padding: 10px;
-            background-color: #e7e7e7;
-            border-radius: 5px;
-        }
+                a div {
+                        color: black;
+                        text-decoration: none;
+                }
 
-        ul li:hover {
-            background-color: #d3d3d3;
-        }
+                ul li {
+                        cursor: pointer;
+                        margin: 5px 0;
+                        padding: 10px;
+                        background-color: #e7e7e7;
+                        border-radius: 5px;
+                }
 
-        iframe {
-            border: 1px solid #eeeeee;
-            margin-top: 20px;
-        }
+                ul li:hover {
+                        background-color: #d3d3d3;
+                }
 
-        .shown {
-            display: block;
-        }
+                iframe {
+                        border: 1px solid #eeeeee;
+                        margin-top: 20px;
+                }
 
-        @media (max-width: 600px) {
-            .container {
-                padding: 10px;
-            }
+                .shown {
+                        display: block;
+                }
 
-            header {
-                font-size: 1em;
-            }
+                .wide {
+                        width: 100%;
+                }
 
-            h2 {
-                font-size: 1.5em;
-            }
-        }
-    </style>
+                @media (max-width: 600px) {
+                        .container {
+                                padding: 10px;
+                        }
+
+                        header {
+                                font-size: 1em;
+                        }
+
+                        h2 {
+                                font-size: 1.5em;
+                        }
+                }
+        </style>
 </head>
 
 <body>
-    <header>
-        <h1><a href="index.html">Назад на головну</a></h1>
-    </header>
-    <div class="container">
-        <div class="main-block">
-            <h2>Веб перегляд моделей</h2>
-            <p>Тут можна побачити 3D моделі програм онлайн, без завантажень. Якісь знижена, так як максимальний розмір
-                файлу 25МБ. Для того, щоб побачити моделі у більшій якості, згенеруйте їх у відповідних програмах</p>
-            <p>Географія</p>
-            <ul>
-                <li data-iframe="iframe1"><a
-                        href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/geography/Світ.stl?raw=true">Світ</a>
-                </li>
-                <li data-iframe="iframe2"><a
-                        href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/geography/Світ із шельфом океанів.stl?raw=true">Світ
-                        із шельфами океанів</a></li>
-                <li data-iframe="iframe3"><a
-                        href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/geography/Європа.stl?raw=true">Європа</a>
-                </li>
-                <li data-iframe="iframe4"><a
-                        href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/geography/Україна.stl?raw=true">Україна</a>
-                </li>
-                <li data-iframe="iframe041"><a
-                        href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/geography/Україна разом.stl?raw=true">Україна
-                        разом</a></li>
-                <li data-iframe="iframe042"><a
-                        href=" https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/geography/Світ кольоровий.stl?raw=true">Світ
-                        кольоровий</a></li>
-                <li data-iframe="iframe5"><a
-                        href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/geography/Азія.stl?raw=true">Азія</a>
-                </li>
-                <li data-iframe="iframe6"><a
-                        href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/geography/Австралія.stl?raw=true">Австралія</a>
-                </li>
-                <li data-iframe="iframe7"><a
-                        href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/geography/Північна Америка.stl?raw=true">Північна
-                        Америка</a></li>
-                <li data-iframe="iframe8"><a
-                        href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/geography/Південна Америка.stl?raw=true">Південна
-                        Америка</a></li>
-            </ul>
-            <p>Математика</p>
-            <ul>
-                <li data-iframe="iframe9"><a
-                        href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/math/z=x+y.stl?raw=true">z=x+y</a>
-                </li>
-                <li data-iframe="iframe10"><a
-                        href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/math/z=xy.stl?raw=true">z=x*y</a>
-                </li>
-                <li data-iframe="iframe11"><a
-                        href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/math/z=cos(x)+sin(y).stl?raw=true">z=cos(x)+sin(y)</a>
-                </li>
-                <li data-iframe="iframe12"><a
-                        href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/math/z=cos(x)sin(y).stl?raw=true">z=cos(x)*sin(y)</a>
-                </li>
-                <li data-iframe="iframe13"><a
-                        href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/math/z=x^2+y^2.stl?raw=true">z=x^2+y^2</a>
-                </li>
-            </ul>
-            <p>Астрономія</p>
-            <ul>
-                <li data-iframe="iframe15"><a href="">Фобос</a></li>
-                <li data-iframe="iframe16"><a href="">Місяць</a></li>
-                <li data-iframe="iframe17"><a href="">Місяць</a></li>
-                <li data-iframe="iframe18"><a href="">Марс</a></li>
-                <li data-iframe="iframe19"><a href="">Харон</a></li>
-                <li data-iframe="iframe20"><a href="">Плутон</a></li>
-                <li data-iframe="iframe21"><a href="">Марс</a></li>
-                <li data-iframe="iframe22"><a href="">Енцелад</a></li>
-                <li data-iframe="iframe23"><a href="">Меркурій</a></li>
-                <li data-iframe="iframe24"><a href="">Місяць</a></li>
-                <li data-iframe="iframe25"><a href="">Марс</a></li>
-            </ul>
-            <p>Фізика</p>
-            <ul>
-                <li data-iframe="iframe26"><a
-                        href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/physics/Магнетизм 1.stl?raw=true">Магнетизм
-                        1</a></li>
-                <li data-iframe="iframe27"><a
-                        href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/physics/Магнетизм 2.stl?raw=true">Магнетизм
-                        2</a></li>
-                <li data-iframe="iframe28"><a
-                        href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/physics/Магнетизм 3.stl?raw=true">Магнетизм
-                        3</a></li>
-                <li data-iframe="iframe29"><a
-                        href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/physics/Магнетизм 4.stl?raw=true">Магнетизм
-                        4</a></li>
-                <li data-iframe="iframe30"><a
-                        href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/physics/Магнетизм 5.stl?raw=true">Магнетизм
-                        5</a></li>
-                <li data-iframe="iframe31"><a
-                        href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/physics/Магнетизм 6.stl?raw=true">Магнетизм
-                        6</a></li>
-                <li data-iframe="iframe0311"><a
-                        href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/physics/Магнетизм 7.stl?raw=true">Магнетизм
-                        7</a></li>
-            </ul>
-            <p>Хімія</p>
-            <ul>
-                <li data-iframe="iframe32"><a
-                        href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/blob/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/chemistry/%D1%85%D1%96%D0%BC%D1%96%D1%8F%201.stl?raw=true">Хімія
-                        1</a></li>
-                <li data-iframe="iframe33"><a
-                        href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/blob/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/chemistry/%D1%85%D1%96%D0%BC%D1%96%D1%8F%202.stl?raw=true">Хімія
-                        2</a></li>
-                <li data-iframe="iframe34"><a
-                        href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/blob/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/chemistry/%D1%85%D1%96%D0%BC%D1%96%D1%8F%203.stl?raw=true">Хімія
-                        3</a></li>
-                <li data-iframe="iframe35"><a
-                        href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/blob/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/chemistry/%D1%85%D1%96%D0%BC%D1%96%D1%8F%204%20%D0%BE%D0%B1%20%D0%BC%D0%BE%D0%BB%20%D0%B2%D0%BE%D0%B4%D0%B8.stl?raw=true">Хімія
-                        4: молекули води</a></li>
-                <li data-iframe="iframe36"><a
-                        href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/blob/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/chemistry/%D1%85%D1%96%D0%BC%D1%96%D1%8F%205.stl?raw=true">Хімія
-                        5</a></li>
-                <li data-iframe="iframe37"><a
-                        href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/blob/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/chemistry/%D1%85%D1%96%D0%BC%D1%96%D1%8F%206%20%D0%BF%D0%BE%D0%BB%D1%96%D0%BC%D0%B5%D1%80%D0%B8.stl?raw=true">Хімія
-                        6: полімери</a></li>
-                <li data-iframe="iframe38"><a
-                        href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/blob/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/chemistry/%D1%85%D1%96%D0%BC%D1%96%D1%8F%207%20%D0%BF%D0%BE%D0%BB%D1%96%D0%BC%D0%B5%D1%80%D0%B8.stl?raw=true">Хімія
-                        7: полімери</a></li>
-                <li data-iframe="iframe39"><a
-                        href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/blob/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/chemistry/%D1%85%D1%96%D0%BC%D1%96%D1%8F%208%20%D0%BF%D0%BE%D0%BB%D1%96%D0%BC%20%D0%B0%D0%BC%D1%96%D0%BD%D0%BE%D0%BA.stl?raw=true">Хімія
-                        8: полімери з амінокислот</a></li>
-                <li data-iframe="iframe40"><a
-                        href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/blob/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/chemistry/%D1%85%D1%96%D0%BC%D1%96%D1%8F%209%20%D0%BF%D0%BB%D0%B0%D1%82%D0%B8%D0%BD%D0%B0.stl?raw=true">Хімія
-                        9: платина</a></li>
-                <li data-iframe="iframe41"><a
-                        href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/blob/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/chemistry/%D1%85%D1%96%D0%BC%D1%96%D1%8F%2010.stl?raw=true">Хімія
-                        10</a></li>
-                <li data-iframe="iframe42"><a
-                        href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/blob/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/chemistry/%D1%85%D1%96%D0%BC%D1%96%D1%8F%2011.stl?raw=true">Хімія
-                        11</a></li>
-                <li data-iframe="iframe43"><a
-                        href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/blob/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/chemistry/%D1%85%D1%96%D0%BC%D1%96%D1%8F%2012.stl?raw=true">Хімія
-                        12</a></li>
-                <li data-iframe="iframe44"><a
-                        href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/blob/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/chemistry/%D1%85%D1%96%D0%BC%D1%96%D1%8F%2013.stl?raw=true">Хімія
-                        13</a></li>
-                <li data-iframe="iframe45"><a
-                        href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/blob/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/chemistry/%D1%85%D1%96%D0%BC%D1%96%D1%8F%2014%20%D0%BE%D1%80%D0%B3%20%D1%81%D0%BF%D0%BE%D0%BB%20%D0%B7%20%D1%84%D1%82%D0%BE%D1%80%D0%BE%D0%BC.stl?raw=true">Хімія
-                        14: органічні сполуки з фтором</a></li>
-                <li data-iframe="iframe46"><a
-                        href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/blob/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/chemistry/%D1%85%D1%96%D0%BC%D1%96%D1%8F%2015%20%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D0%B8%D1%80%D0%B8.stl?raw=true">Хімія
-                        15: структури</a></li>
-                <li data-iframe="iframe47"><a
-                        href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/blob/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/chemistry/%D1%85%D1%96%D0%BC%D1%96%D1%8F%2016%20%D0%B0%D0%BC%D0%BE%D1%80%20%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D1%83%D1%80%D0%B8.stl?raw=true">Хімія
-                        16: аморфні структури</a></li>
-                <li data-iframe="iframe48"><a
-                        href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/blob/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/chemistry/%D1%85%D1%96%D0%BC%D1%96%D1%8F%2017%20%D0%BF%D0%BB%D0%B0%D1%82%20%2B%20%D1%81%D1%82%D0%B5%D0%B0%D1%80%20%D0%BA%D0%B8%D1%81%D0%BB%D0%BE%D1%82.stl?raw=true">Хімія
-                        17: платина з стеариновою кислотою</a></li>
-                <li data-iframe="iframe49"><a
-                        href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/blob/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/chemistry/%D1%85%D1%96%D0%BC%D1%96%D1%8F%2018%20%D0%B7%D0%BE%D0%BB%D0%BE%D1%82%D0%BE.stl?raw=true">Хімія
-                        18: золото</a></li>
-                <li data-iframe="iframe50"><a
-                        href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/blob/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/chemistry/%D1%85%D1%96%D0%BC%D1%96%D1%8F%2019%20%D0%B7%D0%BE%D0%BB%D0%BE%D1%82%D0%BE%20%2B%20%D0%B3%D1%80%D0%B0%D1%84%D1%96%D1%82.stl?raw=true">Хімія
-                        19: золото з графітом</a></li>
-            </ul>
+        <header>
+                <h1><a href="index.html">Назад на головну</a></h1>
+        </header>
+        <div class="container">
+                <div class="main-block">
+                        <h2>Веб перегляд моделей</h2>
+                        <p>Тут можна побачити 3D моделі програм онлайн, без завантажень. Якісь знижена, так як
+                                максимальний розмір
+                                файлу 25МБ. Для того, щоб побачити моделі у більшій якості, згенеруйте їх у відповідних
+                                програмах</p>
+                        <p>Географія</p>
+                        <ul>
+                                <li data-iframe="iframe1"><a
+                                                href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/geography/Світ.stl?raw=true">
+                                                <div class="wide">Світ</div>
+                                        </a>
+                                </li>
+                                <li data-iframe="iframe2"><a
+                                                href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/geography/Світ із шельфом океанів.stl?raw=true">
+                                                <div class="wide">Світ
+                                                        із шельфами океанів</div>
+                                        </a></li>
+                                <li data-iframe="iframe3"><a
+                                                href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/geography/Європа.stl?raw=true">
+                                                <div class="wide">Європа</div>
+                                        </a>
+                                </li>
+                                <li data-iframe="iframe4"><a
+                                                href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/geography/Україна.stl?raw=true">
+                                                <div class="wide">Україна</div>
+                                        </a>
+                                </li>
+                                <li data-iframe="iframe041"><a
+                                                href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/geography/Україна разом.stl?raw=true">
+                                                <div class="wide">Україна
+                                                        разом</div>
+                                        </a></li>
+                                <li data-iframe="iframe042"><a
+                                                href=" https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/geography/Світ кольоровий.stl?raw=true">
+                                                <div class="wide">Світ
+                                                        кольоровий</div>
+                                        </a></li>
+                                <li data-iframe="iframe5"><a
+                                                href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/geography/Азія.stl?raw=true">
+                                                <div class="wide">Азія</div>
+                                        </a>
+                                </li>
+                                <li data-iframe="iframe6"><a
+                                                href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/geography/Австралія.stl?raw=true">
+                                                <div class="wide">Австралія</div>
+                                        </a>
+                                </li>
+                                <li data-iframe="iframe7"><a
+                                                href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/geography/Північна Америка.stl?raw=true">
+                                                <div class="wide">Північна
+                                                        Америка</div>
+                                        </a></li>
+                                <li data-iframe="iframe8"><a
+                                                href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/geography/Південна Америка.stl?raw=true">
+                                                <div class="wide">Південна
+                                                        Америка</div>
+                                        </a></li>
+                        </ul>
+                        <p>Математика</p>
+                        <ul>
+                                <li data-iframe="iframe9"><a
+                                                href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/math/z=x+y.stl?raw=true">
+                                                <div class="wide">z=x+y</div>
+                                        </a>
+                                </li>
+                                <li data-iframe="iframe10"><a
+                                                href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/math/z=xy.stl?raw=true">
+                                                <div class="wide">z=x*y</div>
+                                        </a>
+                                </li>
+                                <li data-iframe="iframe11"><a
+                                                href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/math/z=cos(x)+sin(y).stl?raw=true">
+                                                <div class="wide">z=cos(x)+sin(y)</div>
+                                        </a>
+                                </li>
+                                <li data-iframe="iframe12"><a
+                                                href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/math/z=cos(x)sin(y).stl?raw=true">
+                                                <div class="wide">z=cos(x)*sin(y)</div>
+                                        </a>
+                                </li>
+                                <li data-iframe="iframe13"><a
+                                                href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/math/z=x^2+y^2.stl?raw=true">
+                                                <div class="wide">z=x^2+y^2</div>
+                                        </a>
+                                </li>
+                        </ul>
+                        <p>Астрономія</p>
+                        <ul>
+                                <li data-iframe="iframe15"><a href="">
+                                                <div class="wide">Фобос</div>
+                                        </a></li>
+                                <li data-iframe="iframe16"><a href="">
+                                                <div class="wide">Місяць</div>
+                                        </a></li>
+                                <li data-iframe="iframe17"><a href="">
+                                                <div class="wide">Місяць</div>
+                                        </a></li>
+                                <li data-iframe="iframe18"><a href="">
+                                                <div class="wide">Марс</div>
+                                        </a></li>
+                                <li data-iframe="iframe19"><a href="">
+                                                <div class="wide">Харон</div>
+                                        </a></li>
+                                <li data-iframe="iframe20"><a href="">
+                                                <div class="wide">Плутон</div>
+                                        </a></li>
+                                <li data-iframe="iframe21"><a href="">
+                                                <div class="wide">Марс</div>
+                                        </a></li>
+                                <li data-iframe="iframe22"><a href="">
+                                                <div class="wide">Енцелад</div>
+                                        </a></li>
+                                <li data-iframe="iframe23"><a href="">
+                                                <div class="wide">Меркурій</div>
+                                        </a></li>
+                                <li data-iframe="iframe24"><a href="">
+                                                <div class="wide">Місяць</div>
+                                        </a></li>
+                                <li data-iframe="iframe25"><a href="">
+                                                <div class="wide">Марс</div>
+                                        </a></li>
+                        </ul>
+                        <p>Фізика</p>
+                        <ul>
+                                <li data-iframe="iframe26"><a
+                                                href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/physics/магнетизм 1.stl?raw=true">
+                                                <div class="wide">Магнетизм
+                                                        1</div>
+                                        </a></li>
+                                <li data-iframe="iframe27"><a
+                                                href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/physics/магнетизм 2.stl?raw=true">
+                                                <div class="wide">Магнетизм
+                                                        2</div>
+                                        </a></li>
+                                <li data-iframe="iframe28"><a
+                                                href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/physics/магнетизм 3.stl?raw=true">
+                                                <div class="wide">Магнетизм
+                                                        3</div>
+                                        </a></li>
+                                <li data-iframe="iframe29"><a
+                                                href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/physics/магнетизм 4.stl?raw=true">
+                                                <div class="wide">Магнетизм
+                                                        4</div>
+                                        </a></li>
+                                <li data-iframe="iframe30"><a
+                                                href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/physics/магнетизм 5.stl?raw=true">
+                                                <div class="wide">Магнетизм
+                                                        5</div>
+                                        </a></li>
+                                <li data-iframe="iframe31"><a
+                                                href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/physics/магнетизм 6.stl?raw=true">
+                                                <div class="wide">Магнетизм
+                                                        6</div>
+                                        </a></li>
+                                <li data-iframe="iframe0311"><a
+                                                href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/physics/магнетизм 7.stl?raw=true">
+                                                <div class="wide">Магнетизм
+                                                        7</div>
+                                        </a></li>
+                        </ul>
+                        <p>Хімія</p>
+                        <ul>
+                                <li data-iframe="iframe32"><a
+                                                href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/blob/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/chemistry/%D1%85%D1%96%D0%BC%D1%96%D1%8F%201.stl?raw=true">
+                                                <div class="wide">Хімія
+                                                        1</div>
+                                        </a></li>
+                                <li data-iframe="iframe33"><a
+                                                href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/blob/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/chemistry/%D1%85%D1%96%D0%BC%D1%96%D1%8F%202.stl?raw=true">
+                                                <div class="wide">Хімія
+                                                        2</div>
+                                        </a></li>
+                                <li data-iframe="iframe34"><a
+                                                href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/blob/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/chemistry/%D1%85%D1%96%D0%BC%D1%96%D1%8F%203.stl?raw=true">
+                                                <div class="wide">Хімія
+                                                        3</div>
+                                        </a></li>
+                                <li data-iframe="iframe35"><a
+                                                href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/blob/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/chemistry/%D1%85%D1%96%D0%BC%D1%96%D1%8F%204%20%D0%BE%D0%B1%20%D0%BC%D0%BE%D0%BB%20%D0%B2%D0%BE%D0%B4%D0%B8.stl?raw=true">
+                                                <div class="wide">Хімія
+                                                        4: молекули води</div>
+                                        </a></li>
+                                <li data-iframe="iframe36"><a
+                                                href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/blob/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/chemistry/%D1%85%D1%96%D0%BC%D1%96%D1%8F%205.stl?raw=true">
+                                                <div class="wide">Хімія
+                                                        5</div>
+                                        </a></li>
+                                <li data-iframe="iframe37"><a
+                                                href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/blob/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/chemistry/%D1%85%D1%96%D0%BC%D1%96%D1%8F%206%20%D0%BF%D0%BE%D0%BB%D1%96%D0%BC%D0%B5%D1%80%D0%B8.stl?raw=true">
+                                                <div class="wide">Хімія
+                                                        6: полімери</div>
+                                        </a></li>
+                                <li data-iframe="iframe38"><a
+                                                href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/blob/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/chemistry/%D1%85%D1%96%D0%BC%D1%96%D1%8F%207%20%D0%BF%D0%BE%D0%BB%D1%96%D0%BC%D0%B5%D1%80%D0%B8.stl?raw=true">
+                                                <div class="wide">Хімія
+                                                        7: полімери</div>
+                                        </a></li>
+                                <li data-iframe="iframe39"><a
+                                                href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/blob/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/chemistry/%D1%85%D1%96%D0%BC%D1%96%D1%8F%208%20%D0%BF%D0%BE%D0%BB%D1%96%D0%BC%20%D0%B0%D0%BC%D1%96%D0%BD%D0%BE%D0%BA.stl?raw=true">
+                                                <div class="wide">Хімія
+                                                        8: полімери з амінокислот</div>
+                                        </a></li>
+                                <li data-iframe="iframe40"><a
+                                                href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/blob/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/chemistry/%D1%85%D1%96%D0%BC%D1%96%D1%8F%209%20%D0%BF%D0%BB%D0%B0%D1%82%D0%B8%D0%BD%D0%B0.stl?raw=true">
+                                                <div class="wide">Хімія
+                                                        9: платина</div>
+                                        </a></li>
+                                <li data-iframe="iframe41"><a
+                                                href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/blob/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/chemistry/%D1%85%D1%96%D0%BC%D1%96%D1%8F%2010.stl?raw=true">
+                                                <div class="wide">Хімія
+                                                        10</div>
+                                        </a></li>
+                                <li data-iframe="iframe42"><a
+                                                href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/blob/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/chemistry/%D1%85%D1%96%D0%BC%D1%96%D1%8F%2011.stl?raw=true">
+                                                <div class="wide">Хімія
+                                                        11</div>
+                                        </a></li>
+                                <li data-iframe="iframe43"><a
+                                                href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/blob/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/chemistry/%D1%85%D1%96%D0%BC%D1%96%D1%8F%2012.stl?raw=true">
+                                                <div class="wide">Хімія
+                                                        12</div>
+                                        </a></li>
+                                <li data-iframe="iframe44"><a
+                                                href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/blob/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/chemistry/%D1%85%D1%96%D0%BC%D1%96%D1%8F%2013.stl?raw=true">
+                                                <div class="wide">Хімія
+                                                        13</div>
+                                        </a></li>
+                                <li data-iframe="iframe45"><a
+                                                href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/blob/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/chemistry/%D1%85%D1%96%D0%BC%D1%96%D1%8F%2014%20%D0%BE%D1%80%D0%B3%20%D1%81%D0%BF%D0%BE%D0%BB%20%D0%B7%20%D1%84%D1%82%D0%BE%D1%80%D0%BE%D0%BC.stl?raw=true">
+                                                <div class="wide">Хімія
+                                                        14: органічні сполуки з фтором</div>
+                                        </a></li>
+                                <li data-iframe="iframe46"><a
+                                                href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/blob/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/chemistry/%D1%85%D1%96%D0%BC%D1%96%D1%8F%2015%20%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D0%B8%D1%80%D0%B8.stl?raw=true">
+                                                <div class="wide">Хімія
+                                                        15: структури</div>
+                                        </a></li>
+                                <li data-iframe="iframe47"><a
+                                                href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/blob/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/chemistry/%D1%85%D1%96%D0%BC%D1%96%D1%8F%2016%20%D0%B0%D0%BC%D0%BE%D1%80%20%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D1%83%D1%80%D0%B8.stl?raw=true">
+                                                <div class="wide">Хімія
+                                                        16: аморфні структури</div>
+                                        </a></li>
+                                <li data-iframe="iframe48"><a
+                                                href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/blob/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/chemistry/%D1%85%D1%96%D0%BC%D1%96%D1%8F%2017%20%D0%BF%D0%BB%D0%B0%D1%82%20%2B%20%D1%81%D1%82%D0%B5%D0%B0%D1%80%20%D0%BA%D0%B8%D1%81%D0%BB%D0%BE%D1%82.stl?raw=true">
+                                                <div class="wide">Хімія
+                                                        17: платина з стеариновою кислотою</div>
+                                        </a></li>
+                                <li data-iframe="iframe49"><a
+                                                href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/blob/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/chemistry/%D1%85%D1%96%D0%BC%D1%96%D1%8F%2018%20%D0%B7%D0%BE%D0%BB%D0%BE%D1%82%D0%BE.stl?raw=true">
+                                                <div class="wide">Хімія
+                                                        18: золото</div>
+                                        </a></li>
+                                <li data-iframe="iframe50"><a
+                                                href="https://3dviewer.net/#model=https://github.com/yariktel54/SciGen3D/blob/fdaf82f2ef889104592a0cdda683396f5dcbfcbf/3d_arc/chemistry/%D1%85%D1%96%D0%BC%D1%96%D1%8F%2019%20%D0%B7%D0%BE%D0%BB%D0%BE%D1%82%D0%BE%20%2B%20%D0%B3%D1%80%D0%B0%D1%84%D1%96%D1%82.stl?raw=true">
+                                                <div class="wide">Хімія
+                                                        19: золото з графітом</div>
+                                        </a></li>
+                        </ul>
+                </div>
         </div>
-    </div>
 </body>
 
 </html>
