@@ -58,27 +58,27 @@ def upload_custom_map():
             combined_image_label.image = img_tk
             map_filename = os.path.splitext(os.path.basename(file_path))[0]  # Отримуємо назву файлу без розширення
         except Exception as e:
-            messagebox.showerror("Помилка", f"Не вдалося завантажити зображення: {str(e)}")
+            messagebox.showerror("Error", f"Can`t load image: {str(e)}")
 
 # Функція для завантаження користувацького градієнту
 def upload_custom_gradient():
-        global custom_gradient
-        file_path = filedialog.askopenfilename(filetypes=[("Image files", "*.jpg;*.png")])
-        if file_path:
-            try:
-                img = Image.open(file_path).convert("RGB")
-                column = 5  # Стовпчик, який використовуватимемо для витягування градієнту
-                width, height = img.size
-                colors = []
+    global custom_gradient
+    file_path = filedialog.askopenfilename(filetypes=[("Image files", "*.jpg;*.png")])
+    if file_path:
+        try:
+            img = Image.open(file_path).convert("RGB")
+            column = 5  # Стовпчик, який використовуватимемо для витягування градієнту
+            width, height = img.size
+            colors = []
 
-                for y in range(height):
-                    r, g, b = img.getpixel((column, y))
-                    colors.append([r, g, b])
+            for y in range(height):
+                r, g, b = img.getpixel((column, y))
+                colors.append([r, g, b])
 
-                custom_gradient = np.array(colors, dtype=np.uint8)
-                messagebox.showinfo("Успіх", "Ваш градіент завантажено!")
-            except Exception as e:
-                messagebox.showerror("Помилка", f"Не вийшло завантажити ваш градіент: {str(e)}")
+            custom_gradient = np.array(colors, dtype=np.uint8)
+            messagebox.showinfo("Success", "User gradient downloaded!")
+        except Exception as e:
+            messagebox.showerror("Error", f"Cant download user gradient: {str(e)}")
 
 # Основна функція для створення 3D моделі та STL з використанням об'єднаних пікселів
 def create_3d_model():
@@ -86,11 +86,11 @@ def create_3d_model():
     try:
         step = int(step_entry.get())  # Мін: 1, Макс: 100
     except ValueError:
-        messagebox.showerror("Помилка", "Введіть вірний крок пікселів")
+        messagebox.showerror("Error", "Enter a correct pixel step.")
         return
 
     if combined_pixels is None:
-        messagebox.showerror("Помилка", "Завантажте зображення!")
+        messagebox.showerror("Error", "Load image first!")
         return
 
     platform_thickness = float(platform_entry.get())  # Мін: 0.1, Макс: 10
@@ -98,16 +98,18 @@ def create_3d_model():
     apply_height_filter = filter_var.get()
 
     # Вибір градієнта для обробки
-    if gradient_var.get() == "Кольоровий":
+    if gradient_var.get() == "RGB":
         selected_gradient = rgb_gradient
-    elif gradient_var.get() == "Чорно-Білий":
+    elif gradient_var.get() == "Black-White":
         selected_gradient = bw_gradient
     else:
         if custom_gradient is not None:
             selected_gradient = custom_gradient
         else:
-            messagebox.showerror("Помилка", "Завантажте ваш градієнт!")
+            messagebox.showerror("Error", "Please, load user gradient!")
             return
+
+    gradient_indices = np.zeros((combined_pixels.shape[0] // step, combined_pixels.shape[1] // step), dtype=int)
 
     gradient_indices = np.zeros((combined_pixels.shape[0] // step, combined_pixels.shape[1] // step), dtype=np.int32)
 
@@ -157,13 +159,12 @@ def create_3d_model():
 
     height, width = gradient_indices.shape
 
-
     try:
     # Отримуємо значення з Entry для максимального значення висоти та множника
         height_max_value = float(height_max.get())  
         height_x_val_value = float(height_x_val.get())  
     except ValueError:
-        messagebox.showerror("Помилка", "Введіть правильні числа для максмимальної висоти та множника.")
+        messagebox.showerror("Error", "Enter valid numbers for max height and multiplier.")
         return
     
     if height_enhancement_var.get() == 1: # Застосування операції до height_map
@@ -285,7 +286,7 @@ def create_3d_model():
 
     stl_filename = f"{map_filename}.stl" if map_filename else "terrain.stl"
     terrain.save(stl_filename)
-    messagebox.showinfo("Успіх", f"STL файл збережено як '{stl_filename}'.")
+    messagebox.showinfo("Success", f"STL file is saved as '{stl_filename}'.")
     os.startfile(stl_filename)
 
 
@@ -310,75 +311,75 @@ def upload_test_map():
 
 # Створюємо інтерфейс на Tkinter
 root = tk.Tk()
-root.title("Генератор 3Д моделей")
+root.title("3D model generator")
 
 container = tk.Frame(root)
 container.grid(row=0, column=0, padx=10, pady=10)
 
-tk.Button(container, text="Завантажити тестову картинку", command=upload_test_map).grid(row=0, column=0, padx=10, pady=10)
+tk.Button(container, text="Load test image", command=upload_test_map).grid(row=0, column=0, padx=10, pady=10)
 
 # Кнопка для завантаження власної карти
-tk.Button(container, text="Завантажити свою картинку", command=upload_custom_map).grid(row=1, column=0)
+tk.Button(container, text="Load own image", command=upload_custom_map).grid(row=1, column=0)
 
 # Поле для зображення об'єднаної карти
 combined_image_label = tk.Label(container)
 combined_image_label.grid(row=2, column=0)
 
 # Кнопка для показу/приховування розділу "Додатково"
-toggle_button = tk.Button(root, text="Додатково ▼", command=toggle_additional)
+toggle_button = tk.Button(root, text="Additional ▼", command=toggle_additional)
 toggle_button.grid(row=3, column=0, padx=10, pady=10)
 
 # Додаємо розділ "Додатково"
-additional_frame = tk.LabelFrame(root, text="Додатково", padx=10, pady=10)
+additional_frame = tk.LabelFrame(root, text="Additional", padx=10, pady=10)
 additional_frame.grid(row=2, column=0, padx=10, pady=10)
 additional_frame.grid_remove()  # Початково приховуємо
 
-tk.Label(additional_frame, text="Крок (1-100):").grid(row=0, column=0, sticky=tk.W)
+tk.Label(additional_frame, text="Pixel step (1-100):").grid(row=0, column=0, sticky=tk.W)
 step_entry = tk.Entry(additional_frame)
 step_entry.grid(row=0, column=1)
 step_entry.insert(0, "1")
 
-tk.Label(additional_frame, text="Товщина платформи (0.1-10):").grid(row=1, column=0, sticky=tk.W)
+tk.Label(additional_frame, text="Platform thicness (0.1-10):").grid(row=1, column=0, sticky=tk.W)
 platform_entry = tk.Entry(additional_frame)
 platform_entry.grid(row=1, column=1)
 platform_entry.insert(0, "1")
 
-tk.Label(additional_frame, text="Масштаб висоти (0.1-10):").grid(row=2, column=0, sticky=tk.W)
+tk.Label(additional_frame, text="Height (0.1-10):").grid(row=2, column=0, sticky=tk.W)
 height_entry = tk.Entry(additional_frame)
 height_entry.grid(row=2, column=1)
 height_entry.insert(0, "0.1")
 
 filter_var = tk.IntVar(value=1)  # Створюємо змінну, яка за замовчуванням має значення 1 (відмічений стан)
-tk.Checkbutton(additional_frame, text="Використовувати фільтр висоти", variable=filter_var).grid(row=3, columnspan=2)
+tk.Checkbutton(additional_frame, text="Use height filter", variable=filter_var).grid(row=3, columnspan=2)
 
 # Додаємо перемикачі для фільтрації білого, чорного і прозорого
 filter_black_var = tk.IntVar(value=0)
-tk.Checkbutton(additional_frame, text="Фільтрувати чорне", variable=filter_black_var).grid(row=4, columnspan=2)
+tk.Checkbutton(additional_frame, text="Filter black", variable=filter_black_var).grid(row=4, columnspan=2)
 
 filter_white_var = tk.IntVar(value=0)
-tk.Checkbutton(additional_frame, text="Фільтрувати біле", variable=filter_white_var).grid(row=5, columnspan=2)
+tk.Checkbutton(additional_frame, text="Filter white", variable=filter_white_var).grid(row=5, columnspan=2)
 
 filter_transparent_var = tk.IntVar(value=0)
-tk.Checkbutton(additional_frame, text="Фільтрувати прозоре", variable=filter_transparent_var).grid(row=6, columnspan=2)
+tk.Checkbutton(additional_frame, text="filter transparent", variable=filter_transparent_var).grid(row=6, columnspan=2)
 
 # Додаємо вибір градієнта
-tk.Label(additional_frame, text="Тип градіенту:").grid(row=7, column=0, sticky=tk.W)
-gradient_var = tk.StringVar(value="Чорно-Білий")
-gradient_menu = tk.OptionMenu(additional_frame, gradient_var, "Кольоровий", "Чорно-Білий", "Завантажений свій")
+tk.Label(additional_frame, text="Gradient type:").grid(row=7, column=0, sticky=tk.W)
+gradient_var = tk.StringVar(value="Black-White")
+gradient_menu = tk.OptionMenu(additional_frame, gradient_var, "RGB", "Black-White", "User`s own")
 gradient_menu.grid(row=7, column=1)
 
 # Кнопка для завантаження користувацького градієнта
-tk.Button(additional_frame, text="Завантажити градіент", command=upload_custom_gradient).grid(row=8, columnspan=2)
+tk.Button(additional_frame, text="Load gradient", command=upload_custom_gradient).grid(row=8, columnspan=2)
 
 # Додаємо перемикач для інвертування
 invert_var = tk.IntVar(value=0)
-tk.Checkbutton(additional_frame, text="Інвертувати результат", variable=invert_var).grid(row=9, columnspan=2)
+tk.Checkbutton(additional_frame, text="Negative height", variable=invert_var).grid(row=9, columnspan=2)
 
-tk.Label(additional_frame, text="Обмеження розміру (більша якість, більший розмір)").grid(row=10, column=0, sticky=tk.W)
+tk.Label(additional_frame, text="Size limits (bigger quality, bigger size)").grid(row=10, column=0, sticky=tk.W)
 size_var = tk.IntVar(value=1)
 tk.Checkbutton(additional_frame, variable=size_var).grid(row=10, column=1, sticky=tk.W)
 
-tk.Label(additional_frame, text="Посилення для земель нижче (макс. висота, помножувач)").grid(row=11, column=0, sticky=tk.W)
+tk.Label(additional_frame, text="Enhancement for grounds lower (max height, multiplier)").grid(row=11, column=0, sticky=tk.W)
 height_enhancement_var = tk.IntVar(value=0)  # Унікальна змінна для другого Checkbutton
 tk.Checkbutton(additional_frame, variable=height_enhancement_var).grid(row=11, column=1, sticky=tk.W)
 
@@ -392,6 +393,6 @@ height_x_val.grid(row=11, column=3)
 height_x_val.insert(0, "1.5")
 
 # Кнопка для створення 3D моделі
-tk.Button(container, text="Створити 3D модель", command=create_3d_model).grid(row=5, column=0)
+tk.Button(container, text="Create a 3D model", command=create_3d_model).grid(row=5, column=0)
 
 root.mainloop()

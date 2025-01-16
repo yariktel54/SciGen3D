@@ -11,7 +11,7 @@ import webbrowser
 # Глобальні змінні
 combined_pixels = None
 map_filename = None
-current_service = "чорно-біле"
+current_service = "Black-White"
 rgb_gradient = np.array([[ 62,  14,  50],[ 67,  18,  72],[ 99,  22, 104],[127,  20, 122],[144,  21, 152],[162,  25, 171],[136,  26, 182],[ 83,  27, 149],[ 29,  11, 146],[  0,   0, 202],[  0,  87, 208],[ 42, 160, 131],[ 17, 222,  30],[ 56, 193,   5],[179, 187,   0],[249, 245,   0],[245, 209,   3],[245, 164,  27],[206, 112,  25],[226,  66,  10],[244,  15,  17],[237,  55,  62],[249,  93,  97],[233, 143, 153],[227, 179, 190],[248, 206, 208],[254, 211, 223],[246, 215, 221],[235, 214, 220],[250, 238, 239]])
 # Функція для створення трикутників
 def add_triangles(v1, v2, v3, v4, vertices, faces):
@@ -56,10 +56,10 @@ def merge_tiles(tile_size):
         combined_image_label.config(image=combined_img_tk)
         combined_image_label.image = combined_img_tk
 
-        messagebox.showinfo("Успіх", f"Карта '{selected_tile}' успішно завантажена!")
+        messagebox.showinfo("Success", f"Map '{selected_tile}' successfully loaded!")
 
     except Exception as e:
-        messagebox.showerror("Помилка", f"Не вдалося завантажити карту: {str(e)}")
+        messagebox.showerror("Error", f"Failed to load map: {str(e)}")
 
 # Функція для оновлення посилання на інформацію про тайл
 def update_tile_info(*args):
@@ -77,16 +77,16 @@ def update_tile_info(*args):
         "Mars MGS MOLA DEM 463m": "https://astrogeology.usgs.gov/search/map/mars_mgs_mola_dem_463m"
     }
     selected_tile = tile_var.get()
-    tile_info_label.config(text=f"Інформація про карту: {tile_info_links[selected_tile]}")
+    tile_info_label.config(text=f"Card information: {tile_info_links[selected_tile]}")
     tile_info_label.bind("<Button-1>", lambda e: webbrowser.open(tile_info_links[selected_tile]))
 
 # Функція для завантаження користувацької карти
 def upload_custom_map():
     global combined_pixels, map_filename, current_service
     if service_var.get() == 1:
-        current_service = "чорно-біле"
+        current_service = "Black-White"
     elif service_var.get() == 2:
-        current_service = "кольорове"
+        current_service = "RGB"
     
     file_path = filedialog.askopenfilename(filetypes=[("Image files", "*.jpg;*.png")])
     if file_path:
@@ -99,31 +99,31 @@ def upload_custom_map():
             combined_image_label.image = img_tk
             map_filename = os.path.splitext(os.path.basename(file_path))[0]
 
-            messagebox.showinfo("Успіх", f"Карта '{map_filename}' успішно завантажена! Режим: {current_service}")
+            messagebox.showinfo("Success", f"Map '{map_filename}' downloaded successfully! Mode: {current_service}")
 
         except Exception as e:
-            messagebox.showerror("Помилка", f"Не вдалося завантажити зображення: {str(e)}")
+            messagebox.showerror("Error", f"Failed to load image: {str(e)}")
 
 # Функція для створення 3D моделі
 def create_3d_model():
     global combined_pixels, current_service
     if service_var.get() == 1:
-        current_service = "чорно-біле"
+        current_service = "Black-White"
     elif service_var.get() == 2:
-        current_service = "кольорове"
+        current_service = "RGB"
     
     try:
         step = int(step_entry.get())  # Мін: 1, Макс: 100
     except ValueError:
-        messagebox.showerror("Помилка", "Введіть правильне число для кроку пікселів.")
+        messagebox.showerror("Error", "Enter a valid number for the pixel pitch.")
         return
 
     if combined_pixels is None:
-        messagebox.showerror("Помилка", "Спершу завантажте онлайн або власну карту!")
+        messagebox.showerror("Error", "Download online or own map first!")
         return
 
     if current_service is None:
-        messagebox.showerror("Помилка", "Виберіть режим (чорно-біле або кольорове) перед генерацією 3D моделі.")
+        messagebox.showerror("Error", "Select mode (Black-White or RGB) before generating 3D model.")
         return
 
     platform_thickness = float(platform_entry.get())  # Мін: 0.1, Макс: 10
@@ -133,12 +133,12 @@ def create_3d_model():
     # Ініціалізуємо змінну height_map
     height_map = None
 
-    # Різна обробка для чорно-біле (чорно-біле) та кольорове (кольорове)
-    if current_service == "чорно-біле":
-        # Обробка чорно-біле (чорно-біле)
+    # Різна обробка для Black-White (Black-White) та RGB (RGB)
+    if current_service == "Black-White":
+        # Обробка Black-White (Black-White)
         height_map = np.mean(combined_pixels, axis=2)  # Визначаємо висоту на основі яскравості пікселів
-    elif current_service == "кольорове":
-        # Обробка кольорове (кольорове)
+    elif current_service == "RGB":
+        # Обробка RGB (RGB)
         height_map = np.zeros((combined_pixels.shape[0], combined_pixels.shape[1]))
         for i in range(combined_pixels.shape[0]):
             for j in range(combined_pixels.shape[1]):
@@ -150,10 +150,10 @@ def create_3d_model():
                     height_map[i, j] = np.argmin(distances)
         height_map = np.max(height_map) - height_map
     else:
-        messagebox.showerror("Помилка", "Невідомий режим. Виберіть чорно-біле або кольорове.")
+        messagebox.showerror("Error", "Unknown mode. Select Black-White or RGB.")
         return
     if height_map is None:
-        messagebox.showerror("Помилка", "Не вдалося обробити висотну карту.")
+        messagebox.showerror("Error", "Failed to process height map.")
         return
 
     if size_var.get() == 1:
@@ -284,7 +284,7 @@ def create_3d_model():
 
     stl_filename = f"{map_filename}.stl" if map_filename else "terrain.stl"
     terrain.save(stl_filename)
-    messagebox.showinfo("Успіх", f"STL файл збережено як '{stl_filename}'.")
+    messagebox.showinfo("Success", f"STL file saved as '{stl_filename}'.")
     os.startfile(stl_filename)
 
 
@@ -296,13 +296,13 @@ def toggle_additional():
 
 # Створюємо інтерфейс на Tkinter
 root = tk.Tk()
-root.title("3D модель рельєфу планет")
+root.title("3D model of the relief of the planets")
 
 container = tk.Frame(root)
 container.grid(row=0, column=0, padx=10, pady=10)
 
 # Вибір статичного тайлу
-tk.Label(container, text="Оберіть карту:").grid(row=0, column=0, sticky=tk.W)
+tk.Label(container, text="Choose a card:").grid(row=0, column=0, sticky=tk.W)
 tile_var = tk.StringVar()
 tile_menu = ttk.Combobox(container, textvariable=tile_var)
 tile_menu['values'] = ("Phobos Mars Express HRSC DEM Global 100m","Moon LRO LOLA DEM 118m","Moon LRO LOLA - SELENE Kaguya TC DEM Merge 60N60S 59m","Mars MSL Gale Merged DEM 1m","Charon New Horizons LORRI MVIC Global DEM 300m","Pluto New Horizons LORRI - MVIC Global DEM 300m","Mars MGS MOLA - MEX HRSC Blended DEM Global 200m","Enceladus Cassini Global DEM 200m Schenk","Mercury MESSENGER Global DEM 665m","Lunar LRO NAC Haworth Photoclinometry DEM 1m","Mars MGS MOLA DEM 463m")
@@ -313,53 +313,53 @@ tile_menu.current(0)
 tile_var.trace("w", update_tile_info)
 
 # Кнопка для завантаження тайлів на основі обраного сервісу
-tk.Button(container, text="Завантажити карту", command=lambda: merge_tiles(1)).grid(row=2, columnspan=2)
+tk.Button(container, text="Load map", command=lambda: merge_tiles(1)).grid(row=2, columnspan=2)
 
 # Поле для зображення об'єднаної карти
 combined_image_label = tk.Label(container)
 combined_image_label.grid(row=4, columnspan=2)
 
 # Кнопка для завантаження власної карти
-tk.Button(container, text="Завантажити власну карту", command=upload_custom_map).grid(row=5, columnspan=2)
+tk.Button(container, text="Load your own map", command=upload_custom_map).grid(row=5, columnspan=2)
 
 # Кнопка для створення 3D моделі
-tk.Button(container, text="Створити 3D модель", command=create_3d_model).grid(row=6, columnspan=2)
+tk.Button(container, text="Create a 3D model", command=create_3d_model).grid(row=6, columnspan=2)
 
 # Відображення посилання на інформацію про тайл
-tile_info_label = tk.Label(container, text="Інформація про карту:", fg="blue", cursor="hand2")
+tile_info_label = tk.Label(container, text="Map information:", fg="blue", cursor="hand2")
 tile_info_label.grid(row=7, columnspan=2)
 
 # Кнопка для показу/приховування додаткового блоку
-toggle_button = tk.Button(container, text="Додатково ▼", command=toggle_additional)
+toggle_button = tk.Button(container, text="Additional ▼", command=toggle_additional)
 toggle_button.grid(row=8, columnspan=2, padx=10, pady=10)
 
 # Додатковий блок (початково прихований)
 additional_frame = tk.Frame(container)
-tk.Label(additional_frame, text="Крок пікселів (1-100):").grid(row=0, column=0, sticky=tk.W)
+tk.Label(additional_frame, text="Pixel step (1-100):").grid(row=0, column=0, sticky=tk.W)
 step_entry = tk.Entry(additional_frame)
 step_entry.grid(row=0, column=1, padx=10, pady=10)
 step_entry.insert(0, "1")
 
-tk.Label(additional_frame, text="Товщина платформи (0.1-10):").grid(row=1, column=0, sticky=tk.W)
+tk.Label(additional_frame, text="Platform thickness (0.1-10):").grid(row=1, column=0, sticky=tk.W)
 platform_entry = tk.Entry(additional_frame)
 platform_entry.grid(row=1, column=1, padx=10, pady=10)
 platform_entry.insert(0, "1")
 
-tk.Label(additional_frame, text="Масштаб висоти (0.1-10):").grid(row=2, column=0, sticky=tk.W)
+tk.Label(additional_frame, text="Height scale (0.1-10):").grid(row=2, column=0, sticky=tk.W)
 height_entry = tk.Entry(additional_frame)
 height_entry.grid(row=2, column=1, padx=10, pady=10)
 height_entry.insert(0, "0.1")
 
-tk.Label(additional_frame, text="Виберіть метод обробки:").grid(row=3, column=0, sticky=tk.W)
-service_var = tk.IntVar(value=1)  # Початково вибрано чорно-біле
-tk.Radiobutton(additional_frame, text="чорно-біле", variable=service_var, value=1).grid(row=3, column=1, sticky=tk.W)
-tk.Radiobutton(additional_frame, text="кольорове", variable=service_var, value=2).grid(row=3, column=2, sticky=tk.W)
+tk.Label(additional_frame, text="Choose a processing method:").grid(row=3, column=0, sticky=tk.W)
+service_var = tk.IntVar(value=1)  # Початково вибрано Black-White
+tk.Radiobutton(additional_frame, text="Black-White", variable=service_var, value=1).grid(row=3, column=1, sticky=tk.W)
+tk.Radiobutton(additional_frame, text="RGB", variable=service_var, value=2).grid(row=3, column=2, sticky=tk.W)
 
-tk.Label(additional_frame, text="Обмеження розміру (більша якість, більший розмір)").grid(row=5, column=0, sticky=tk.W)
+tk.Label(additional_frame, text="Size limits(bigger quality, bigger size)").grid(row=5, column=0, sticky=tk.W)
 size_var = tk.IntVar(value=1)
 tk.Checkbutton(additional_frame, variable=size_var).grid(row=5, column=1, sticky=tk.W)
 
-tk.Label(additional_frame, text="Посилення для земель нижче (макс. висота, помножувач)").grid(row=6, column=0, sticky=tk.W)
+tk.Label(additional_frame, text="Enhancement for grounds lower (max height, multiplier)").grid(row=6, column=0, sticky=tk.W)
 height_enhancement_var = tk.IntVar(value=0)  # Унікальна змінна для другого Checkbutton
 tk.Checkbutton(additional_frame, variable=height_enhancement_var).grid(row=6, column=1, sticky=tk.W)
 

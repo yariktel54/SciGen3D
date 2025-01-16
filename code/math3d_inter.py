@@ -114,20 +114,20 @@ def create_3d_model():
         apply_height_filter = filter_var.get()
 
         if not (1 <= x_size <= 100 and 1 <= y_size <= 100):
-            raise ValueError("Розмір по X і Y повинен бути в діапазоні [1, 100].")
+            raise ValueError("The size in X and Y should be in the range [1, 100].")
         if not (0.1 <= platform_thickness <= 10):
-            raise ValueError("Товщина платформи повинна бути в діапазоні [0.1, 10].")
+            raise ValueError("The thickness of the platform should be in the range [0.1, 10].")
         if not (0.1 <= height_scale <= 10):
-            raise ValueError("Масштаб висоти повинен бути в діапазоні [0.1, 10].")
+            raise ValueError("The height scale should be in the range [0.1, 10].")
         if not (0 <= z_offset <= 100):
-            raise ValueError("Вертикальний відступ повинен бути в діапазоні [0, 100].")
+            raise ValueError("The vertical offset should be in the range [0, 100].")
         if not (1 <= quality_factor <= 10):
-            raise ValueError("Якість моделі повинна бути в діапазоні [1, 10].")
+            raise ValueError("The quality of the model should be in the range [1, 10].")
 
         step = 1 / quality_factor
 
     except ValueError as ve:
-        messagebox.showerror("Помилка", f"Введіть правильні числові значення: {ve}")
+        messagebox.showerror("Error", f"Enter the correct numerical values: {ve}")
         return
 
     x, y = sp.symbols('x y')
@@ -135,7 +135,7 @@ def create_3d_model():
     try:
         expr = sp.sympify(formula)
     except sp.SympifyError as e:
-        messagebox.showerror("Помилка у формулі", f"Неможливо перетворити формулу: {e}")
+        messagebox.showerror("An error in the formula", f"Unable to convert formula: {e}")
         return
 
     x_vals = np.arange(-x_size / 2, x_size / 2, step)
@@ -156,7 +156,7 @@ def create_3d_model():
                     elif z_vals[i, j] < ((x_size + y_size) / -2) + z_offset:
                         z_vals[i, j] = ((x_size + y_size) / -2) + z_offset + 20
     except Exception as e:
-        messagebox.showerror("Помилка у формулі", f"Помилка при обчисленні: {e}")
+        messagebox.showerror("An error in the formula", f"Calculation error: {e}")
         return
 
     vertices = []
@@ -180,6 +180,69 @@ def create_3d_model():
 
             vertices.extend([v1, v2, v3, v4])
 
+    # Додаємо верхню поверхню платформи (залишаємо як було)
+    for i in range(x_vals.shape[0] - 1):
+        for j in range(y_vals.shape[1] - 1):
+            v1 = [x_vals[i, j], y_vals[i, j], platform_thickness]
+            v2 = [x_vals[i + 1, j], y_vals[i + 1, j], platform_thickness]
+            v3 = [x_vals[i, j + 1], y_vals[i, j + 1], platform_thickness]
+            v4 = [x_vals[i + 1, j + 1], y_vals[i + 1, j + 1], platform_thickness]
+
+            faces.append([len(vertices), len(vertices) + 2, len(vertices) + 1])
+            faces.append([len(vertices) + 1, len(vertices) + 2, len(vertices) + 3])
+            vertices.extend([v1, v2, v3, v4])
+
+    # Додаємо перевернуту основу платформи
+    for i in range(x_vals.shape[0] - 1):
+        for j in range(y_vals.shape[1] - 1):
+            v1 = [x_vals[i, j], y_vals[i, j], 0]
+            v2 = [x_vals[i + 1, j], y_vals[i + 1, j], 0]
+            v3 = [x_vals[i, j + 1], y_vals[i, j + 1], 0]
+            v4 = [x_vals[i + 1, j + 1], y_vals[i + 1, j + 1], 0]
+
+            faces.append([len(vertices), len(vertices) + 1, len(vertices) + 2])  # Перевернутий порядок
+            faces.append([len(vertices) + 1, len(vertices) + 3, len(vertices) + 2])  # Перевернутий порядок
+            vertices.extend([v1, v2, v3, v4])
+
+    # Додаємо стінки платформи
+    for i in range(x_vals.shape[0] - 1):
+        # Ліва стінка
+        v1 = [x_vals[i, 0], y_vals[i, 0], 0]
+        v2 = [x_vals[i + 1, 0], y_vals[i + 1, 0], 0]
+        v3 = [x_vals[i, 0], y_vals[i, 0], platform_thickness]
+        v4 = [x_vals[i + 1, 0], y_vals[i + 1, 0], platform_thickness]
+        faces.append([len(vertices), len(vertices) + 2, len(vertices) + 1])
+        faces.append([len(vertices) + 3, len(vertices) + 1, len(vertices) + 2])
+        vertices.extend([v1, v2, v3, v4])
+
+        # Права стінка
+        v1 = [x_vals[i, -1], y_vals[i, -1], 0]
+        v2 = [x_vals[i + 1, -1], y_vals[i + 1, -1], 0]
+        v3 = [x_vals[i, -1], y_vals[i, -1], platform_thickness]
+        v4 = [x_vals[i + 1, -1], y_vals[i + 1, -1], platform_thickness]
+        faces.append([len(vertices), len(vertices) + 1, len(vertices) + 2])
+        faces.append([len(vertices) + 1, len(vertices) + 3, len(vertices) + 2])
+        vertices.extend([v1, v2, v3, v4])
+
+    for j in range(y_vals.shape[1] - 1):
+        # Передня стінка
+        v1 = [x_vals[0, j], y_vals[0, j], 0]
+        v2 = [x_vals[0, j + 1], y_vals[0, j + 1], 0]
+        v3 = [x_vals[0, j], y_vals[0, j], platform_thickness]
+        v4 = [x_vals[0, j + 1], y_vals[0, j + 1], platform_thickness]
+        faces.append([len(vertices), len(vertices) + 1, len(vertices) + 2])
+        faces.append([len(vertices) + 1, len(vertices) + 3, len(vertices) + 2])
+        vertices.extend([v1, v2, v3, v4])
+
+        # Задня стінка
+        v1 = [x_vals[-1, j], y_vals[-1, j], 0]
+        v2 = [x_vals[-1, j + 1], y_vals[-1, j + 1], 0]
+        v3 = [x_vals[-1, j], y_vals[-1, j], platform_thickness]
+        v4 = [x_vals[-1, j + 1], y_vals[-1, j + 1], platform_thickness]
+        faces.append([len(vertices), len(vertices) + 2, len(vertices) + 1])
+        faces.append([len(vertices) + 2, len(vertices) + 3, len(vertices) + 1])
+        vertices.extend([v1, v2, v3, v4])
+
     vertices = np.array(vertices)
     faces = np.array(faces)
 
@@ -192,7 +255,7 @@ def create_3d_model():
     full_path = os.path.join(os.getcwd(), file_name)
     terrain.save(full_path)
 
-    messagebox.showinfo("Успіх", f"STL файл збережено як '{full_path}'.")
+    messagebox.showinfo("Success", f"STL file saved as '{full_path}'.")
     os.startfile(file_name)
 
 
@@ -222,13 +285,13 @@ def toggle_additional():
 
 # Створюємо інтерфейс на Tkinter
 root = tk.Tk()
-root.title("3D модель за функцією z = f(x, y)")
+root.title("3D model of the z = f(x, y)")
 
 container = tk.Frame(root)
 container.grid(row=0, column=0, padx=10, pady=10)
 
 # Поля для введення параметрів
-tk.Label(container, text="Формула z = f(x, y):").grid(row=0, column=0, sticky=tk.W)
+tk.Label(container, text="Formula z = f(x, y):").grid(row=0, column=0, sticky=tk.W)
 function_entry = tk.Entry(container)
 function_entry.grid(row=0, column=1, padx=10, pady=0)
 function_entry.insert(0, "(sin(x) + cos(y))/x")  # Приклад формули
@@ -244,49 +307,49 @@ tk.Button(button_container, text="cos", command=insert_cos).grid(row=0, column=3
 tk.Button(button_container, text="tan", command=insert_tan).grid(row=0, column=4)
 
 # Кнопка для показу/приховування розділу "Додаткове"
-toggle_button = tk.Button(root, text="Додаткове ▼", command=toggle_additional)
+toggle_button = tk.Button(root, text="Additional ▼", command=toggle_additional)
 toggle_button.grid(row=3, column=0, padx=10, pady=10)
 
 # Додаємо розділ "Додаткове" для числових параметрів
-additional_frame = tk.LabelFrame(root, text="Додаткове", padx=10, pady=10)
+additional_frame = tk.LabelFrame(root, text="Additional", padx=10, pady=10)
 additional_frame.grid(row=4, column=0, padx=10, pady=10)
 additional_frame.grid_remove()  # Початково приховуємо
 
-tk.Label(additional_frame, text="Розмір по X (1-100):").grid(row=0, column=0, sticky=tk.W)
+tk.Label(additional_frame, text="Size in X (1-100):").grid(row=0, column=0, sticky=tk.W)
 x_size_entry = tk.Entry(additional_frame)
 x_size_entry.grid(row=0, column=1)
 x_size_entry.insert(0, "20")
 
-tk.Label(additional_frame, text="Розмір по Y (1-100):").grid(row=1, column=0, sticky=tk.W)
+tk.Label(additional_frame, text="Size in Y (1-100):").grid(row=1, column=0, sticky=tk.W)
 y_size_entry = tk.Entry(additional_frame)
 y_size_entry.grid(row=1, column=1)
 y_size_entry.insert(0, "20")
 
-tk.Label(additional_frame, text="Товщина платформи (0.1-10):").grid(row=2, column=0, sticky=tk.W)
+tk.Label(additional_frame, text="Platform thickness (0.1-10):").grid(row=2, column=0, sticky=tk.W)
 platform_entry = tk.Entry(additional_frame)
 platform_entry.grid(row=2, column=1)
 platform_entry.insert(0, "1")
 
-tk.Label(additional_frame, text="Масштаб висоти (0.1-10):").grid(row=3, column=0, sticky=tk.W)
+tk.Label(additional_frame, text="Height scale (0.1-10):").grid(row=3, column=0, sticky=tk.W)
 height_entry = tk.Entry(additional_frame)
 height_entry.grid(row=3, column=1)
 height_entry.insert(0, "1")
 
-tk.Label(additional_frame, text="Вертикальний відступ (0-100):").grid(row=4, column=0, sticky=tk.W)
+tk.Label(additional_frame, text="Vertical indentation (0-100):").grid(row=4, column=0, sticky=tk.W)
 offset_entry = tk.Entry(additional_frame)
 offset_entry.grid(row=4, column=1)
 offset_entry.insert(0, "20")
 
-tk.Label(additional_frame, text="Якість моделі (1-10):").grid(row=5, column=0, sticky=tk.W)
+tk.Label(additional_frame, text="Model quality (1-10):").grid(row=5, column=0, sticky=tk.W)
 quality_entry = tk.Entry(additional_frame)
 quality_entry.grid(row=5, column=1)
 quality_entry.insert(0, "5")
 
 # Додаємо чекбокс для фільтру висоти
 filter_var = tk.IntVar(value=0) 
-tk.Checkbutton(additional_frame, text="Застосувати фільтр висоти", variable=filter_var).grid(row=6, columnspan=2)
+tk.Checkbutton(additional_frame, text="Apply height filter", variable=filter_var).grid(row=6, columnspan=2)
 
 # Кнопка для створення 3D моделі
-tk.Button(root, text="Створити 3D модель", command=create_3d_model).grid(row=2, column=0, columnspan=2)
+tk.Button(root, text="Create a 3D model", command=create_3d_model).grid(row=2, column=0, columnspan=2)
 
 root.mainloop()
